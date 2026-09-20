@@ -1,7 +1,8 @@
 # Inspire personal configuration
 
 Personal presentation profiles for [Pi Inspire](https://github.com/XWIlluDelu/pi-inspire).
-This repository contains configuration only, not a fork of the application.
+Shared as examples to adapt to your own tools. This repository contains configuration
+only, not a fork of the application.
 
 ## Profiles
 
@@ -13,15 +14,19 @@ Keep credentials, session records, runtime state, logs, and backups out of this 
 
 ## Use
 
-The local `../inspire` source checkout reads its ignored configuration path,
-`.inspire/tool-presentations.json`, through a relative symlink to `profiles/personal.json`.
-Edit this tracked profile and refresh the browser; no application rebuild is needed.
-
-On another installation, select a profile in the environment that starts the Host:
+Clone this repository, then select a profile in the environment that starts the Host:
 
 ```sh
-export INSPIRE_TOOL_PRESENTATIONS_PATH=/absolute/path/to/inspire-config/profiles/personal.json
+git clone https://github.com/XWIlluDelu/pi-inspire-config.git
+export INSPIRE_TOOL_PRESENTATIONS_PATH=/absolute/path/to/pi-inspire-config/profiles/personal.json
 ```
+
+Replace the example path with the absolute path to your clone. Edit the selected profile
+and refresh the browser; no application rebuild is needed.
+
+The personal profile maps `grep` and `find` to FFF-specific presentations. If you use Pi's
+native tools instead, remove those two mappings or start with `profiles/native.json`.
+Only retain mappings that match your installed tools.
 
 For native presentations, select `profiles/native.json` instead. Changing the Host's
 configured path requires a restart after active work settles. Alternatively, point the
@@ -33,9 +38,10 @@ before replacing it. The selected file is read again on each authenticated brows
 1. Update Inspire from its ordinary `main` branch or release.
 2. Edit only the profile needed for the current extension tool shapes.
 3. Check the browser after refresh; invalid declarations produce a warning and retain native rules.
-4. Commit and push profile changes here, separately from application changes.
+4. Keep your profile changes versioned separately from application changes.
 
 The declaration format and limits are documented in Inspire's
 [`docs/tool-presentations.md`](https://github.com/XWIlluDelu/pi-inspire/blob/main/docs/tool-presentations.md).
-Missing mappings use generic cards; an explicit user mapping replaces the native mapping
-for that exact tool name, so only override tools whose extension-provided shapes you use.
+Tools without a user mapping keep Inspire's native rule when one exists; otherwise they
+use a generic card. An explicit user mapping replaces the native mapping for that exact
+tool name, so only override tools whose extension-provided shapes you use.
