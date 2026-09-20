@@ -1,0 +1,642 @@
+{
+  "version": 1,
+  "rules": {
+    "user.fff.grep": {
+      "summary": [
+        {
+          "value": {
+            "path": "args.pattern",
+            "prefix": "/",
+            "suffix": "/"
+          }
+        },
+        {
+          "value": { "literal": "in" },
+          "subdued": true
+        },
+        {
+          "kind": "resource",
+          "value": { "path": "args.path", "fallback": "." }
+        },
+        {
+          "value": { "path": "args.glob" },
+          "separator": "dot",
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            { "label": "Query", "value": { "path": "args.pattern" } },
+            {
+              "label": "Root",
+              "value": { "path": "args.path", "fallback": "." },
+              "resource": { "path": "args.path", "fallback": "." }
+            },
+            {
+              "label": "Files",
+              "value": { "path": "args.glob" },
+              "optional": true
+            },
+            {
+              "label": "Exclude",
+              "value": { "path": "args.exclude" },
+              "optional": true
+            },
+            {
+              "label": "Case sensitive",
+              "value": { "path": "args.caseSensitive" },
+              "optional": true
+            },
+            {
+              "label": "Context",
+              "value": { "path": "args.context", "suffix": " lines" },
+              "optional": true
+            },
+            {
+              "label": "Limit",
+              "value": { "path": "args.limit" },
+              "optional": true
+            },
+            {
+              "label": "Cursor",
+              "value": { "path": "args.cursor" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "search",
+          "label": "Matches",
+          "source": { "path": "result.text" },
+          "format": "grouped-lines",
+          "emptyValues": ["No matches found"],
+          "emptyText": "No matches found"
+        }
+      ]
+    },
+    "user.fff.find": {
+      "summary": [
+        { "value": { "path": "args.pattern" } },
+        {
+          "value": { "literal": "in" },
+          "subdued": true
+        },
+        {
+          "kind": "resource",
+          "value": { "path": "args.path", "fallback": "." }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            { "label": "Pattern", "value": { "path": "args.pattern" } },
+            {
+              "label": "Root",
+              "value": { "path": "args.path", "fallback": "." },
+              "resource": { "path": "args.path", "fallback": "." }
+            },
+            {
+              "label": "Exclude",
+              "value": { "path": "args.exclude" },
+              "optional": true
+            },
+            {
+              "label": "Limit",
+              "value": { "path": "args.limit" },
+              "optional": true
+            },
+            {
+              "label": "Cursor",
+              "value": { "path": "args.cursor" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "label": "Files",
+          "source": { "path": "result.text" },
+          "format": "annotated-lines",
+          "emptyValues": ["No files found matching pattern"],
+          "emptyText": "No files found matching pattern"
+        }
+      ]
+    },
+    "user.intercom.call": {
+      "summary": [
+        { "value": { "path": "args.action" } },
+        {
+          "value": { "path": "args.to" },
+          "optional": true
+        },
+        {
+          "value": { "path": "args.cwd" },
+          "separator": "dot",
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            { "label": "Action", "value": { "path": "args.action" } },
+            {
+              "label": "Target",
+              "value": { "path": "args.to" },
+              "optional": true
+            },
+            {
+              "label": "Working directory",
+              "value": { "path": "args.cwd" },
+              "optional": true
+            },
+            {
+              "label": "Reply to",
+              "value": { "path": "args.replyTo" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "label": "Message",
+          "source": { "path": "args.message" },
+          "optional": true
+        },
+        {
+          "type": "code",
+          "label": "Attachments",
+          "source": { "path": "args.attachments", "format": "json" },
+          "language": "json",
+          "lineNumbers": false,
+          "optional": true
+        },
+        {
+          "type": "markdown",
+          "label": "Result",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.web.search": {
+      "summary": [
+        { "value": { "literal": "Search" } },
+        {
+          "value": { "path": "args.query", "format": "first-line" },
+          "optional": true
+        },
+        {
+          "value": { "path": "args.queries.0", "format": "first-line" },
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Provider",
+              "value": { "path": "args.provider", "format": "json" },
+              "optional": true
+            },
+            {
+              "label": "Results",
+              "value": { "path": "args.numResults" },
+              "optional": true
+            },
+            {
+              "label": "Recency",
+              "value": { "path": "args.recencyFilter" },
+              "optional": true
+            },
+            {
+              "label": "Domains",
+              "value": { "path": "args.domainFilter", "format": "json" },
+              "optional": true
+            },
+            {
+              "label": "Workflow",
+              "value": { "path": "args.workflow" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "label": "Query",
+          "source": { "path": "args.query" },
+          "optional": true
+        },
+        {
+          "type": "code",
+          "label": "Queries",
+          "source": { "path": "args.queries", "format": "json" },
+          "language": "json",
+          "lineNumbers": false,
+          "optional": true
+        },
+        {
+          "type": "markdown",
+          "label": "Result",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.web.source-check": {
+      "summary": [
+        { "value": { "literal": "Check" } },
+        {
+          "value": { "path": "args.claim", "format": "first-line" }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Provider",
+              "value": { "path": "args.provider", "format": "json" },
+              "optional": true
+            },
+            {
+              "label": "Results",
+              "value": { "path": "args.numResults" },
+              "optional": true
+            },
+            {
+              "label": "Fetch content",
+              "value": { "path": "args.fetchContent" },
+              "optional": true
+            },
+            {
+              "label": "Recency",
+              "value": { "path": "args.recencyFilter" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "label": "Claim",
+          "source": { "path": "args.claim" }
+        },
+        {
+          "type": "code",
+          "label": "Queries",
+          "source": { "path": "args.queries", "format": "json" },
+          "language": "json",
+          "lineNumbers": false,
+          "optional": true
+        },
+        {
+          "type": "markdown",
+          "label": "Evidence",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.web.fetch-content": {
+      "summary": [
+        { "value": { "literal": "Fetch" } },
+        {
+          "value": { "path": "args.url", "format": "first-line" },
+          "optional": true
+        },
+        {
+          "value": { "path": "args.urls.0", "format": "first-line" },
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Mode",
+              "value": { "path": "args.mode", "fallback": "readable" }
+            },
+            {
+              "label": "Timestamp",
+              "value": { "path": "args.timestamp" },
+              "optional": true
+            },
+            {
+              "label": "Frames",
+              "value": { "path": "args.frames" },
+              "optional": true
+            },
+            {
+              "label": "Model",
+              "value": { "path": "args.model" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "label": "URL",
+          "source": { "path": "args.url" },
+          "optional": true
+        },
+        {
+          "type": "code",
+          "label": "URLs",
+          "source": { "path": "args.urls", "format": "json" },
+          "language": "json",
+          "lineNumbers": false,
+          "optional": true
+        },
+        {
+          "type": "text",
+          "label": "Prompt",
+          "source": { "path": "args.prompt" },
+          "optional": true
+        },
+        {
+          "type": "markdown",
+          "label": "Content",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.web.get-content": {
+      "summary": [
+        { "value": { "literal": "Content" } },
+        { "value": { "path": "args.responseId" } },
+        {
+          "value": { "path": "args.url", "format": "first-line" },
+          "separator": "dot",
+          "optional": true
+        },
+        {
+          "value": { "path": "args.query", "format": "first-line" },
+          "separator": "dot",
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Response",
+              "value": { "path": "args.responseId" }
+            },
+            {
+              "label": "URL",
+              "value": { "path": "args.url" },
+              "optional": true
+            },
+            {
+              "label": "Query",
+              "value": { "path": "args.query" },
+              "optional": true
+            },
+            {
+              "label": "Offset",
+              "value": { "path": "args.offset" },
+              "optional": true
+            },
+            {
+              "label": "Limit",
+              "value": { "path": "args.limit" },
+              "optional": true
+            },
+            {
+              "label": "Find mode",
+              "value": { "path": "args.findMode" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "label": "Find text",
+          "source": { "path": "args.findText", "format": "json" },
+          "language": "json",
+          "lineNumbers": false,
+          "optional": true
+        },
+        {
+          "type": "markdown",
+          "label": "Content",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.context.search": {
+      "summary": [
+        { "value": { "literal": "Recall" } },
+        {
+          "value": { "path": "args.query", "format": "first-line" },
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Sources",
+              "value": { "path": "args.sources", "format": "json" },
+              "optional": true
+            },
+            {
+              "label": "Limit",
+              "value": { "path": "args.limit" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "label": "Query",
+          "source": { "path": "args.query" },
+          "optional": true
+        },
+        {
+          "type": "terminal",
+          "label": "Recall",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.context.memory": {
+      "summary": [
+        { "value": { "path": "args.action", "fallback": "write" } },
+        { "value": { "literal": "memory" } },
+        {
+          "value": { "path": "args.ids" },
+          "separator": "dot",
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Action",
+              "value": { "path": "args.action", "fallback": "write" }
+            },
+            {
+              "label": "Category",
+              "value": { "path": "args.category" },
+              "optional": true
+            },
+            {
+              "label": "IDs",
+              "value": { "path": "args.ids", "format": "json" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "label": "Content",
+          "source": { "path": "args.content" },
+          "optional": true
+        },
+        {
+          "type": "terminal",
+          "label": "Result",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.context.note": {
+      "summary": [
+        { "value": { "path": "args.action", "fallback": "write" } },
+        { "value": { "literal": "note" } },
+        {
+          "value": { "path": "args.note_id", "prefix": "#" },
+          "separator": "dot",
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Action",
+              "value": { "path": "args.action", "fallback": "write" }
+            },
+            {
+              "label": "Note",
+              "value": { "path": "args.note_id" },
+              "optional": true
+            },
+            {
+              "label": "Filter",
+              "value": { "path": "args.filter" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "label": "Content",
+          "source": { "path": "args.content" },
+          "optional": true
+        },
+        {
+          "type": "text",
+          "label": "Surface condition",
+          "source": { "path": "args.surface_condition" },
+          "optional": true
+        },
+        {
+          "type": "terminal",
+          "label": "Result",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.context.expand": {
+      "summary": [
+        { "value": { "literal": "Expand context" } },
+        {
+          "value": { "path": "args.message", "prefix": "#" },
+          "optional": true
+        },
+        {
+          "value": { "path": "args.start", "prefix": "#" },
+          "optional": true
+        },
+        {
+          "value": { "path": "args.end", "prefix": "–" },
+          "optional": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            {
+              "label": "Message",
+              "value": { "path": "args.message" },
+              "optional": true
+            },
+            {
+              "label": "Start",
+              "value": { "path": "args.start" },
+              "optional": true
+            },
+            {
+              "label": "End",
+              "value": { "path": "args.end" },
+              "optional": true
+            },
+            {
+              "label": "Verbose",
+              "value": { "path": "args.verbose" },
+              "optional": true
+            }
+          ]
+        },
+        {
+          "type": "terminal",
+          "label": "Context",
+          "source": { "path": "result.text" }
+        }
+      ]
+    },
+    "user.context.reduce": {
+      "summary": [
+        { "value": { "literal": "Release context" } },
+        { "value": { "path": "args.drop" } }
+      ],
+      "blocks": [
+        {
+          "type": "properties",
+          "items": [
+            { "label": "Drop", "value": { "path": "args.drop" } }
+          ]
+        },
+        {
+          "type": "terminal",
+          "label": "Result",
+          "source": { "path": "result.text" }
+        }
+      ]
+    }
+  },
+  "mappings": {
+    "grep": "user.fff.grep",
+    "find": "user.fff.find",
+    "intercom": "user.intercom.call",
+    "web_search": "user.web.search",
+    "source_check": "user.web.source-check",
+    "fetch_content": "user.web.fetch-content",
+    "get_search_content": "user.web.get-content",
+    "ctx_search": "user.context.search",
+    "ctx_memory": "user.context.memory",
+    "ctx_note": "user.context.note",
+    "ctx_expand": "user.context.expand",
+    "ctx_reduce": "user.context.reduce"
+  }
+}
