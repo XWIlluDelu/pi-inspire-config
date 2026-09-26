@@ -1,47 +1,38 @@
-# Inspire personal configuration
+# INSΠRE customizations
 
-Personal presentation profiles for [Pi Inspire](https://github.com/XWIlluDelu/pi-inspire).
-Shared as examples to adapt to your own tools. This repository contains configuration
-only, not a fork of the application.
+User-owned presentation profiles for [INSΠRE](https://github.com/XWIlluDelu/pi-inspire),
+adapted to the Pi extensions you use. INSΠRE provides the shared interface and
+rendering engine; your profile supplies presentation rules and tool mappings.
 
 ## Profiles
 
-- `profiles/personal.json`: FFF search, Intercom, web tools, and Magic Context presentations.
-- `profiles/native.json`: shipped Pi-native presentations, with generic cards for other tools.
+- [`profiles/personal.json`](profiles/personal.json): FFF search, Intercom, web tools, and Magic Context presentations.
+- [`profiles/native.json`](profiles/native.json): an empty starting profile that uses INSΠRE's built-in Pi presentations and generic cards for other tools.
 
-Both profiles use the same Inspire code. They do not enable or disable Pi extensions.
-Keep credentials, session records, runtime state, logs, and backups out of this repository.
+Keep mappings that match your Pi setup. The personal profile maps `grep` and `find`
+to FFF rules; remove those mappings if you use Pi's native tools instead.
 
-## Use
+## Set up
 
-Clone this repository, then select a profile in the environment that starts the Host:
+Keep this repository in your user configuration directory, separately from the
+application checkout. On Linux:
 
 ```sh
-git clone https://github.com/XWIlluDelu/pi-inspire-config.git
-export INSPIRE_TOOL_PRESENTATIONS_PATH=/absolute/path/to/pi-inspire-config/profiles/personal.json
+customizations="${XDG_CONFIG_HOME:-$HOME/.config}/inspire/customizations"
+git clone https://github.com/XWIlluDelu/pi-inspire-customizations.git "$customizations"
+export INSPIRE_TOOL_PRESENTATIONS_PATH="$customizations/profiles/personal.json"
 ```
 
-Replace the example path with the absolute path to your clone. Edit the selected profile
-and refresh the browser; no application rebuild is needed.
+Set the variable in the environment that starts the INSΠRE Host. Changing the
+configured path takes effect after a Host restart. Alternatively, link INSΠRE's
+[default configuration file](https://github.com/XWIlluDelu/pi-inspire/blob/main/docs/tool-presentations.md#configuration-location)
+to your chosen profile.
 
-The personal profile maps `grep` and `find` to FFF-specific presentations. If you use Pi's
-native tools instead, remove those two mappings or start with `profiles/native.json`.
-Only retain mappings that match your installed tools.
+## Customize
 
-For native presentations, select `profiles/native.json` instead. Changing the Host's
-configured path requires a restart after active work settles. Alternatively, point the
-default configuration path at the chosen file with a symlink; back up any existing file
-before replacing it. The selected file is read again on each authenticated browser bootstrap.
+Edit the selected JSON file and refresh the browser to apply it. The
+[declaration reference](https://github.com/XWIlluDelu/pi-inspire/blob/main/docs/tool-presentations.md)
+covers tool and Thinking presentations, field selectors, and supported blocks.
 
-## Maintenance
-
-1. Update Inspire from its ordinary `main` branch or release.
-2. Edit only the profile needed for the current extension tool shapes.
-3. Check the browser after refresh; invalid declarations produce a warning and retain native rules.
-4. Keep your profile changes versioned separately from application changes.
-
-The declaration format and limits are documented in Inspire's
-[`docs/tool-presentations.md`](https://github.com/XWIlluDelu/pi-inspire/blob/main/docs/tool-presentations.md).
-Tools without a user mapping keep Inspire's native rule when one exists; otherwise they
-use a generic card. An explicit user mapping replaces the native mapping for that exact
-tool name, so only override tools whose extension-provided shapes you use.
+Version and share your profiles independently of INSΠRE releases. Keep credentials
+and runtime data outside this repository.
